@@ -118,7 +118,7 @@
     <ClCompile Include="Josephus.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CircleList.h" />
+    <ClInclude Include="CircList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

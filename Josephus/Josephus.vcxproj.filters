@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CircleList.h">
+    <ClInclude Include="CircList.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
