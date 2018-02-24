@@ -29,9 +29,9 @@ int main()
 void Josephus(CircList &list, int num, int gap)
 {
 	Node *prev = list.getHead(), *ptr;
-	for (int i = 0; i < num - 1; i++)
+	for (int i = 0; i < num - 1; i++)//要去除 num - 1 个人
 	{
-		for (int j = 0; j < gap - 1; j++)
+		for (int j = 0; j < gap - 1; j++)//步长为 gap
 			prev = prev->next;
 		ptr = prev->next;
 
