@@ -36,7 +36,7 @@ void Josephus(CircList &list, int num, int gap)
 		ptr = prev->next;
 
 		cout << ptr->val << " is out." << endl;
-		
+
 		if (ptr == list.getHead())
 			list.setHead();
 		else

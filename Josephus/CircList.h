@@ -11,14 +11,13 @@ struct Node
 };
 class CircList
 {
-	Node *head, *last;
+	Node *head, *last;//循环链表需要一个尾节点标志
 public:
-	CircList() { head = last = NULL; }
-	CircList(const int &val);
+	CircList() { head = last = NULL; }//默认构造函数
 	~CircList();
 	int length()const;
 	Node *getHead()const { return head; }//返回头节点的内存地址
-	void setHead();//将下一节点变为头节点
+	void setHead();//移除头节点，将下一节点变为头节点
 	Node *getAddr(int pos)const;//返回当前节点的内存地址
 	int getData(int pos)const;//返回当前位置的数据
 	void setData(int pos, int &val);//修改当前位置的数据
@@ -27,26 +26,6 @@ public:
 	bool remove(int pos);//删除当前位置节点
 	void display();
 };
-
-CircList::CircList(const int &val)
-{
-	Node *ptr = head;
-	Node *p = (struct Node*)malloc(sizeof(Node));
-
-	if (p == NULL)
-		throw "No enough memory! Allocation failed.";
-	else if (head == NULL)
-		head = p;
-	else
-	{
-		while (ptr->next != NULL)
-			ptr = ptr->next;
-		ptr->next = p;
-	}
-	ptr = last = p;
-	ptr->val = val;
-	ptr->next = head;
-}
 
 inline CircList::~CircList()
 {
@@ -61,6 +40,7 @@ inline CircList::~CircList()
 	free(head);
 	head = last = NULL;
 }
+
 inline int CircList::length() const
 {
 	if (head == NULL)
@@ -76,6 +56,7 @@ inline int CircList::length() const
 	}
 	return count + 1;
 }
+
 inline void CircList::setHead()
 {
 	Node *p = head;
@@ -83,6 +64,7 @@ inline void CircList::setHead()
 	last->next = head;
 	free(p);
 }
+
 inline Node * CircList::getAddr(int pos) const
 {
 	if (pos < 0)
@@ -95,6 +77,7 @@ inline Node * CircList::getAddr(int pos) const
 		ptr = ptr->next;
 	return ptr;
 }
+
 inline int CircList::getData(int pos) const
 {
 	if (pos < 0)
@@ -107,6 +90,7 @@ inline int CircList::getData(int pos) const
 		ptr = ptr->next;
 	return ptr->val;
 }
+
 inline void CircList::setData(int pos, int & val)
 {
 	if (pos < 0)
@@ -119,6 +103,7 @@ inline void CircList::setData(int pos, int & val)
 		ptr = ptr->next;
 	ptr->val = val;
 }
+
 inline bool CircList::insert(int pos, int & val)
 {
 	if (pos < 0)
@@ -126,7 +111,7 @@ inline bool CircList::insert(int pos, int & val)
 	else if (pos >= length())
 		throw "Out of range!";
 	else if (pos == length())
-		return add(val);
+		return add(val);//结尾添加
 
 	Node *ptr, *prev = head;
 	Node *p = (struct Node*)malloc(sizeof(Node));
@@ -142,6 +127,7 @@ inline bool CircList::insert(int pos, int & val)
 	p->next = ptr;
 	return true;
 }
+
 inline bool CircList::add(int & val)
 {
 	Node *p = (struct Node*)malloc(sizeof(Node));
@@ -164,6 +150,7 @@ inline bool CircList::add(int & val)
 	}
 	return true;
 }
+
 inline bool CircList::remove(int pos)
 {
 	if (pos < 0)
@@ -189,13 +176,14 @@ inline bool CircList::remove(int pos)
 	}
 	return true;
 }
+
 inline void CircList::display()
 {
 	Node *p = head;
 	if (head == NULL)
 		return;
 	else if (head == last)
-		cout << head->val << endl;
+		cout << head->val;
 	else
 	{
 		while (p != last)
