@@ -32,7 +32,7 @@ CircList::CircList(const int &val)
 	Node *ptr = head;
 	Node *p = (struct Node*)malloc(sizeof(Node));
 
-	if (p = NULL)
+	if (p == NULL)
 		throw "No enough memory! Allocation failed.";
 	else if (head == NULL)
 		head = p;
@@ -119,8 +119,9 @@ inline bool CircList::insert(int pos, int & val)
 
 	Node *ptr, *prev = head;
 	Node *p = (struct Node*)malloc(sizeof(Node));
-	if (p = NULL)
+	if (p == NULL)
 		throw "No enough memory! Allocation failed.";
+
 	for (int i = 0; i < pos; i++)
 		prev = prev->next;
 	ptr = prev->next;
@@ -133,17 +134,22 @@ inline bool CircList::insert(int pos, int & val)
 inline bool CircList::add(int & val)
 {
 	Node *p = (struct Node*)malloc(sizeof(Node));
-	if (p = NULL)
+	if (p == NULL)
 		throw "No enough memory! Allocation failed.";
 
 	if (head == NULL)
-		head->val = val;
+	{
+		p->val = val;
+		p->next = head;
+		head = last = p;
+		head->next = last->next = head;
+	}
 	else
 	{
 		last->next = p;
-		p->val = val;
-		p->next = head;
 		last = p;
+		last->val = val;
+		last->next = head;
 	}
 	return true;
 }
@@ -154,23 +160,38 @@ inline bool CircList::remove(int pos)
 	else if (pos >= length())
 		throw "Out of range!";
 
-	Node *prev = head, *ptr;
-	for (int i = 0; i < pos - 1; i++)
-		prev = prev->next;
-	ptr = prev->next;
-	prev->next = ptr->next;
-	free(ptr);
+	if (pos == 0)
+	{
+		Node *p = head;
+		head = head->next;
+		last->next = head;
+		free(p);
+	}
+	else
+	{
+		Node *prev = head, *ptr;
+		for (int i = 0; i < pos - 1; i++)
+			prev = prev->next;
+		ptr = prev->next;
+		prev->next = ptr->next;
+		free(ptr);
+	}
 	return true;
 }
 inline void CircList::display()
 {
 	Node *p = head;
-	if (head == last)
+	if (head == NULL)
+		return;
+	else if (head == last)
 		cout << head->val << endl;
 	else
 	{
 		while (p != last)
+		{
 			cout << p->val << ' ';
+			p = p->next;
+		}
 		cout << last->val;
 	}
 }
