@@ -18,6 +18,7 @@ public:
 	~CircList();
 	int length()const;
 	Node *getHead()const { return head; }//返回头节点的内存地址
+	void setHead();//将下一节点变为头节点
 	Node *getAddr(int pos)const;//返回当前节点的内存地址
 	int getData(int pos)const;//返回当前位置的数据
 	void setData(int pos, int &val);//修改当前位置的数据
@@ -50,12 +51,15 @@ CircList::CircList(const int &val)
 inline CircList::~CircList()
 {
 	Node *ptr;
+	last->next = NULL;
 	while (head->next != NULL)
 	{
 		ptr = head->next;
-		head->next = ptr->next;
-		free(ptr);
+		free(head);
+		head = ptr;
 	}
+	free(head);
+	head = last = NULL;
 }
 inline int CircList::length() const
 {
@@ -71,6 +75,13 @@ inline int CircList::length() const
 		count++;
 	}
 	return count + 1;
+}
+inline void CircList::setHead()
+{
+	Node *p = head;
+	head = head->next;
+	last->next = head;
+	free(p);
 }
 inline Node * CircList::getAddr(int pos) const
 {

@@ -21,26 +21,28 @@ int main()
 	Josephus(list, num, gap);
 	list.display();
 	cout << " will enjoy the free trip." << endl;
+	getchar();
+	getchar();
 	return 0;
 }
 
 void Josephus(CircList &list, int num, int gap)
 {
-	Node *prev = list.getHead();
-	int count = 1;
+	Node *prev = list.getHead(), *ptr;
 	for (int i = 0; i < num - 1; i++)
 	{
 		for (int j = 0; j < gap - 1; j++)
-			count++;
-		count %= 8 - i;
+			prev = prev->next;
+		ptr = prev->next;
 
-		cout << count << " is out." << endl;
-		try {
-			list.remove(count--);
-		}
-		catch (const char *msg)
+		cout << ptr->val << " is out." << endl;
+		
+		if (ptr == list.getHead())
+			list.setHead();
+		else
 		{
-			cerr << msg << endl;
+			prev->next = ptr->next;
+			free(ptr);
 		}
 		list.display();
 		cout << endl;
